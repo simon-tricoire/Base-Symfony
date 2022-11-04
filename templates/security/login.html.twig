@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block message %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message_error in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible fade show">
+        {{ message_error }}
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <div
+        class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-500">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-4">
+                        Vous êtes connecté comme {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    </div>
+                {% endif %}
+
+                <div class="form-group mb-4">
+                    <label for="inputUsername">Utilisateur</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="inputPassword">Mot de passe</label>
+                    <div class="d-flex password-eye">
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        <i class="far fa-eye" id="togglePassword"></i>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check mb-0">
+                        <label class="form-check-label mb-0" for="remember">
+                            <input type="checkbox" name="_remember_me" id="remember" class="form-check-input"> Se souvenir de moi
+                        </label>
+                    </div>
+                    <div>
+                        <a class="small text-right" href="{{path('app_forgot_password_request')}}">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+            
+
+                <div class="d-grid">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascriptsEndPage %}
+<script> 
+    togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#inputPassword');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+{% endblock %}

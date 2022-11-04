@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vérifier votre adresse email{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="login-form bg-light mt-4 p-4">
+            <p>
+                Un email de vérification a été envoyé.
+                Veuillez cliquer dessus pour activer votre compte avant de vous connecter. 
+            </p>
+            <p>
+                Si vous voulez renvoyer l'email de vérification, renseigner de nouveau votre adresse email.
+            </p>
+            {{ form_start(resendVerifyEmailForm) }}
+                {{ form_row(resendVerifyEmailForm.email) }}
+                <button type="submit" class="btn btn-primary">Renvoyer l'email</button>
+            {{ form_end(resendVerifyEmailForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

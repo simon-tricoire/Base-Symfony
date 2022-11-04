@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe{% endblock %}
+
+{% block body %}
+    <div class="col-12 d-flex align-items-center justify-content-center">
+        <div
+        class="signin-inner my-4 my-lg-0 bg-white shadow-soft border rounded border-gray-300 p-4 p-lg-5 w-100 fmxw-500">
+        <h1>Réinitialiser votre mot de passe</h1>
+
+        {{ form_start(resetForm) }}
+            <div class="form-group mb-3">
+                {{ form_label(resetForm.plainPassword.first) }}
+                <div class="d-flex password-eye">
+                    {{ form_widget(resetForm.plainPassword.first, {
+                        'id': 'inputPassword'
+                    }) }}
+                    <i class="far fa-eye" id="togglePassword"></i>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                {{ form_label(resetForm.plainPassword.second) }}
+                <div class="d-flex password-eye">
+                    {{ form_widget(resetForm.plainPassword.second, {
+                        'id': 'inputRepeatPassword'
+                    }) }}
+                    <i class="far fa-eye" id="toggleRepeatPassword"></i>
+                </div>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Réinitialiser le mot de passe
+                </button>
+            </div>
+        {{ form_end(resetForm) }}
+        </div>
+    </div>
+{% endblock %}
+{% block javascriptsEndPage %}
+<script> 
+    togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#inputPassword');
+    toggleRepeatPassword = document.querySelector('#toggleRepeatPassword');
+    const repeatPassword = document.querySelector('#inputRepeatPassword');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+    toggleRepeatPassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = repeatPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        repeatPassword.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+{% endblock %}
